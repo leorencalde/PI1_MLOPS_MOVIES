@@ -11,9 +11,9 @@ import string
 app = FastAPI()
 
 # Especificar las rutas absolutas a los archivos Parquet usando raw strings para evitar problemas con las barras invertidas
-movies_df_path = r'C:\Users\aleja\OneDrive\Escritorio\Data Science\2. Labs\1. PI1 - MLOPS\DT23\Dataset\movies_df.parquet' 
-credits_cast_df_path = r'C:\Users\aleja\OneDrive\Escritorio\Data Science\2. Labs\1. PI1 - MLOPS\DT23\Dataset\credits_cast_df.parquet'
-credits_crew_df_path = r'C:\Users\aleja\OneDrive\Escritorio\Data Science\2. Labs\1. PI1 - MLOPS\DT23\Dataset\credits_crew_df.parquet'
+movies_df_path = 'Dataset/movies_df.parquet' 
+credits_cast_df_path = 'Dataset/credits_cast_df.parquet'
+credits_crew_df_path = 'Dataset/credits_crew_df.parquet'
 
 # Verificar que los archivos existen
 if not os.path.exists(movies_df_path):

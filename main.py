@@ -4,8 +4,14 @@ import pandas as pd
 import os
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
-from nltk.corpus import stopwords
+import nltk
 import string
+
+# Descargar recursos necesarios de nltk
+try:
+    nltk.data.find('corpora/stopwords')
+except LookupError:
+    nltk.download('stopwords')
 
 # Crear la aplicación FastAPI
 app = FastAPI()

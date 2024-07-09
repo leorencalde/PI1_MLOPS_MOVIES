@@ -4,15 +4,6 @@ import pandas as pd
 import os
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
-import nltk
-from nltk.corpus import stopwords
-import string
-
-# Descargar recursos necesarios de nltk
-try:
-    nltk.data.find('corpora/stopwords')
-except LookupError:
-    nltk.download('stopwords')
 
 # Crear la aplicación FastAPI
 app = FastAPI()
@@ -216,22 +207,6 @@ def get_director(nombre_director: str):
     return mensaje
 
 # Sistema de recomendacion: Se ingresa el nombre de una película y te recomienda las similares en una lista de 5 valores.
-
-def limpiar_texto(text):
-    stop_words = set(stopwords.words('english'))
-    text = text.lower()
-    text = ''.join([char for char in text if char not in string.punctuation])
-    text = ' '.join([word for word in text.split() if word not in stop_words])
-    return text
-
-# Limpiar las descripciones de las películas
-movies_df['clean_overview'] = movies_df['overview'].apply(lambda x: limpiar_texto(x) if isinstance(x, str) else '')
-
-# Dar más peso a los géneros duplicando la información de géneros
-movies_df['weighted_genres'] = movies_df['genres_name'] + ' ' + movies_df['genres_name'] + ' ' + movies_df['genres_name']
-
-# Combinar los títulos, descripciones y géneros ponderados
-movies_df['combined_features'] = movies_df['title'] + ' ' + movies_df['clean_overview'] + ' ' + movies_df['weighted_genres']
 
 # Vectorización del texto usando TF-IDF
 vectorizer = TfidfVectorizer()

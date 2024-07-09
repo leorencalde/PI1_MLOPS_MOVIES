@@ -215,11 +215,14 @@ tfidf_matrix = vectorizer.fit_transform(movies_df['combined_features'])
 @app.get("/recomendacion/{titulo}")
 def recomendacion(titulo: str):
 
-    if titulo not in movies_df['title'].values:
+    # Convertir el título ingresado a minúsculas para comparación insensible a mayúsculas/minúsculas
+    titulo = titulo.lower()
+
+    if titulo not in movies_df['title'].str.lower().values:
         return f"La película '{titulo}' no se encontró en el dataset."
     
     # Obtener el índice de la película con el título dado
-    idx = movies_df[movies_df['title'] == titulo].index[0]
+    idx = movies_df[movies_df['title'].str.lower() == titulo].index[0]
     
     # Calcular la similitud del coseno entre la película dada y todas las demás
     cosine_sim = cosine_similarity(tfidf_matrix[idx], tfidf_matrix).flatten()
@@ -239,7 +242,7 @@ def recomendacion(titulo: str):
         similar_movies = collection_movies + [movie for movie in similar_movies if movie not in collection_movies]
 
     # Excluir la película que se pasó como argumento de la lista de recomendaciones
-    similar_movies = [movie for movie in similar_movies if movie != titulo]
+    similar_movies = [movie for movie in similar_movies if movie.lower() != titulo]
 
     # Eliminar duplicados manteniendo el orden
     similar_movies = list(dict.fromkeys(similar_movies))
